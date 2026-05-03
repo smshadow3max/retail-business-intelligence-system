@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retail Business Intelligence System</title>
+  <meta name="description" content="A college mini project on retail business intelligence using data warehousing techniques." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=zodiak@400,700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem;
+      --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem; --space-20: 5rem;
+      --color-bg:#f7f6f2; --color-surface:#f9f8f5; --color-surface-2:#fbfbf9; --color-surface-offset:#f3f0ec;
+      --color-border:#d4d1ca; --color-divider:#dcd9d5; --color-text:#28251d; --color-text-muted:#6f6c66; --color-text-faint:#a5a29b;
+      --color-primary:#01696f; --color-primary-hover:#0c4e54; --color-primary-highlight:#cedcd8; --color-success:#437a22; --color-orange:#da7101;
+      --radius-sm:0.375rem; --radius-md:0.5rem; --radius-lg:0.75rem; --radius-xl:1rem; --radius-full:9999px;
+      --shadow-sm:0 1px 2px rgba(0,0,0,0.06); --shadow-md:0 10px 25px rgba(0,0,0,0.08); --shadow-lg:0 20px 40px rgba(0,0,0,0.12);
+      --font-display:'Zodiak', Georgia, serif; --font-body:'General Sans', Arial, sans-serif;
+      --content-wide:1200px; --content-default:1000px;
+    }
+    [data-theme="dark"] {
+      --color-bg:#171614; --color-surface:#1c1b19; --color-surface-2:#201f1d; --color-surface-offset:#22211f;
+      --color-border:#393836; --color-divider:#262523; --color-text:#e5e3dd; --color-text-muted:#afaca5; --color-text-faint:#7b7771;
+      --color-primary:#4f98a3; --color-primary-hover:#227f8b; --color-primary-highlight:#313b3b; --color-success:#6daa45; --color-orange:#fdab43;
+      --shadow-sm:0 1px 2px rgba(0,0,0,0.25); --shadow-md:0 10px 25px rgba(0,0,0,0.35); --shadow-lg:0 20px 40px rgba(0,0,0,0.45);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+    body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.6;background:var(--color-bg);color:var(--color-text)}
+    img,svg{display:block;max-width:100%}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit;cursor:pointer;border:none;background:none}
+    :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
+    .skip-link{position:absolute;left:-9999px;top:auto}.skip-link:focus{left:1rem;top:1rem;background:var(--color-primary);color:white;padding:.75rem 1rem;z-index:20;border-radius:var(--radius-md)}
+    .container{width:min(calc(100% - 2rem), var(--content-default));margin-inline:auto}
+    .wide{width:min(calc(100% - 2rem), var(--content-wide));margin-inline:auto}
+    header{position:sticky;top:0;z-index:10;background:color-mix(in srgb, var(--color-bg) 88%, transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--color-divider)}
+    .nav{display:flex;justify-content:space-between;align-items:center;padding:var(--space-4) 0;gap:var(--space-4)}
+    .brand{display:flex;align-items:center;gap:var(--space-3);font-weight:700}
+    .brand svg{width:36px;height:36px;color:var(--color-primary)}
+    .nav-links{display:flex;gap:var(--space-4);flex-wrap:wrap;color:var(--color-text-muted);font-size:var(--text-sm)}
+    .theme-toggle{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--color-border);border-radius:var(--radius-full);background:var(--color-surface)}
+    .hero{padding:var(--space-16) 0 var(--space-12)}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:var(--space-8);align-items:center}
+    .eyebrow{display:inline-flex;gap:var(--space-2);align-items:center;padding:.5rem .9rem;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+    h1,h2,h3{font-family:var(--font-display);line-height:1.1}
+    h1{font-size:var(--text-2xl);max-width:12ch;margin:var(--space-4) 0}
+    h2{font-size:var(--text-xl);margin-bottom:var(--space-4)}
+    p{max-width:68ch}
+    .lead{font-size:var(--text-lg);color:var(--color-text-muted)}
+    .hero-actions{display:flex;gap:var(--space-3);margin-top:var(--space-6);flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-width:160px;min-height:44px;padding:.85rem 1.1rem;border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600}
+    .btn-primary{background:var(--color-primary);color:white}.btn-primary:hover{background:var(--color-primary-hover)}
+    .btn-secondary{border:1px solid var(--color-border);background:var(--color-surface)}
+    .panel{background:linear-gradient(180deg,var(--color-surface),var(--color-surface-2));border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-md)}
+    .hero-card{padding:var(--space-6)}
+    .mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4);margin-top:var(--space-5)}
+    .stat{padding:var(--space-4);background:var(--color-surface-offset);border-radius:var(--radius-lg);border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent)}
+    .stat strong{display:block;font-size:var(--text-xl);font-family:var(--font-display)}
+    section{padding:var(--space-12) 0}
+    .section-head{display:flex;justify-content:space-between;gap:var(--space-4);align-items:end;margin-bottom:var(--space-6);flex-wrap:wrap}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+    .card{padding:var(--space-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}
+    .card h3{font-size:var(--text-lg);margin-bottom:var(--space-3)}
+    .badge{display:inline-block;padding:.35rem .7rem;border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:700;background:var(--color-primary-highlight);color:var(--color-primary);margin-bottom:var(--space-3)}
+    .architecture{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4)}
+    .layer{padding:var(--space-5);border-radius:var(--radius-xl);border:1px solid var(--color-border);background:var(--color-surface)}
+    .layer:nth-child(2){background:var(--color-surface-2)} .layer:nth-child(3){background:var(--color-surface-offset)}
+    .layer strong{display:block;margin-bottom:var(--space-2);color:var(--color-primary)}
+    .table-wrap{overflow:auto;border:1px solid var(--color-border);border-radius:var(--radius-xl);background:var(--color-surface)}
+    table{width:100%;border-collapse:collapse;font-size:var(--text-sm)} th,td{padding:1rem;border-bottom:1px solid var(--color-divider);text-align:left}
+    th{background:var(--color-surface-offset)}
+    .timeline{display:grid;gap:var(--space-4)}
+    .timeline-item{padding:var(--space-5);border-left:3px solid var(--color-primary);background:var(--color-surface);border-radius:0 var(--radius-xl) var(--radius-xl) 0}
+    footer{padding:var(--space-10) 0 var(--space-16);color:var(--color-text-muted)}
+    .footer-box{display:flex;justify-content:space-between;gap:var(--space-4);padding:var(--space-5);border:1px solid var(--color-border);border-radius:var(--radius-xl);background:var(--color-surface);flex-wrap:wrap}
+    @media (max-width: 980px){
+      .hero-grid,.architecture,.cards{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 720px){
+      .nav-links{display:none}
+      .hero-grid,.architecture,.cards,.mini-grid{grid-template-columns:1fr}
+      h1{max-width:100%}
+      .section-head,.footer-box{align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header>
+    <div class="container nav">
+      <div class="brand" aria-label="Retail BI System logo">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Retail BI emblem">
+          <rect x="8" y="10" width="14" height="44" rx="4" fill="currentColor" opacity="0.88"/>
+          <rect x="26" y="22" width="14" height="32" rx="4" fill="currentColor" opacity="0.68"/>
+          <rect x="44" y="4" width="12" height="50" rx="4" fill="currentColor"/>
+        </svg>
+        <span>Retail BI Warehouse</span>
+      </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#overview">Overview</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#schema">Schema</a>
+        <a href="#dashboard">Insights</a>
+        <a href="#plan">Implementation</a>
+      </nav>
+      <button class="theme-toggle" data-theme-toggle aria-label="Switch theme">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3A7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wide hero-grid">
+        <div>
+          <span class="eyebrow">College mini project • Data Warehouse</span>
+          <h1>Retail business intelligence system using data warehousing techniques</h1>
+          <p class="lead">This project demonstrates how a retail company can collect sales, customer, product, inventory, and store data into a centralized warehouse to support strategic decisions through reporting, OLAP-style analysis, and KPI monitoring.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#overview">Explore project</a>
+            <a class="btn btn-secondary" href="#plan">View implementation plan</a>
+          </div>
+        </div>
+        <aside class="panel hero-card" aria-label="Project summary card">
+          <span class="badge">Project scope</span>
+          <h2 style="margin-top:0">Core deliverables</h2>
+          <div class="mini-grid">
+            <div class="stat"><span>Fact table</span><strong>Sales</strong><small>Revenue, quantity, profit</small></div>
+            <div class="stat"><span>Dimensions</span><strong>5+</strong><small>Time, store, customer, product, promotion</small></div>
+            <div class="stat"><span>Outputs</span><strong>KPIs</strong><small>Top products, monthly sales, regional trends</small></div>
+            <div class="stat"><span>Method</span><strong>ETL</strong><small>Extract, transform and load workflow</small></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="overview">
+      <div class="wide">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Problem statement</p>
+            <h2>Why this project matters</h2>
+          </div>
+          <p>Retail businesses generate data from billing systems, inventory records, customer programs, online orders, and promotions. A data warehouse integrates these sources so decision-makers can measure performance, detect patterns, and improve business strategy.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <span class="badge">Objective 01</span>
+            <h3>Centralize retail data</h3>
+            <p>Bring data from store sales, inventory, customers, suppliers, and promotions into one structured repository to reduce data silos.</p>
+          </article>
+          <article class="card">
+            <span class="badge">Objective 02</span>
+            <h3>Support faster decisions</h3>
+            <p>Enable management to analyze daily and monthly revenue, category performance, branch efficiency, and demand trends with less manual effort.</p>
+          </article>
+          <article class="card">
+            <span class="badge">Objective 03</span>
+            <h3>Improve reporting accuracy</h3>
+            <p>Use dimensional modeling and ETL validation rules so dashboards and reports remain consistent across departments.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="wide">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">System design</p>
+            <h2>Warehouse architecture</h2>
+          </div>
+          <p>The project follows a classic retail BI pipeline: operational data sources feed an ETL layer, then load a dimensional warehouse, which powers reports and dashboards.</p>
+        </div>
+        <div class="architecture">
+          <div class="layer"><strong>1. Source systems</strong>POS transactions, CRM records, product catalog, stock logs, e-commerce orders, supplier data.</div>
+          <div class="layer"><strong>2. ETL process</strong>Clean duplicates, standardize dates, map product categories, calculate profit, validate missing values.</div>
+          <div class="layer"><strong>3. Data warehouse</strong>Store fact_sales with dimension tables such as dim_time, dim_store, dim_product, dim_customer, dim_promotion.</div>
+          <div class="layer"><strong>4. BI layer</strong>Dashboards, KPI scorecards, trend analysis, drill-down reports and management summaries.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="schema">
+      <div class="wide">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Dimensional model</p>
+            <h2>Sample star schema</h2>
+          </div>
+          <p>The star schema keeps query performance simple and efficient by linking a measurable sales fact table with descriptive dimensions.</p>
+        </div>
+        <div class="table-wrap" role="region" aria-label="Star schema tables">
+          <table>
+            <thead>
+              <tr>
+                <th>Table</th>
+                <th>Type</th>
+                <th>Key columns</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>fact_sales</td><td>Fact</td><td>sales_key, date_key, store_key, product_key, customer_key, quantity_sold, total_sales, profit</td><td>Stores measurable retail transactions.</td></tr>
+              <tr><td>dim_time</td><td>Dimension</td><td>date_key, day, month, quarter, year</td><td>Supports trend and period analysis.</td></tr>
+              <tr><td>dim_store</td><td>Dimension</td><td>store_key, store_name, city, region</td><td>Tracks branch and regional performance.</td></tr>
+              <tr><td>dim_product</td><td>Dimension</td><td>product_key, product_name, brand, category</td><td>Analyzes product and category sales.</td></tr>
+              <tr><td>dim_customer</td><td>Dimension</td><td>customer_key, segment, gender, loyalty_type</td><td>Supports customer behavior insights.</td></tr>
+              <tr><td>dim_promotion</td><td>Dimension</td><td>promotion_key, campaign_name, discount_rate</td><td>Measures campaign effectiveness.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard">
+      <div class="wide">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Business insights</p>
+            <h2>Example analytics outputs</h2>
+          </div>
+          <p>Once loaded, the warehouse can generate KPIs and analytical views that support both tactical and strategic decisions.</p>
+        </div>
+        <div class="cards">
+          <article class="card"><h3>Sales analysis</h3><p>Compare daily, weekly, monthly, and yearly sales. Identify seasonal spikes, low-performing periods, and revenue growth trends.</p></article>
+          <article class="card"><h3>Product performance</h3><p>Rank products by sales value, quantity sold, and profit margin to identify best-sellers and weak inventory items.</p></article>
+          <article class="card"><h3>Customer intelligence</h3><p>Segment customers by loyalty type, purchase frequency, and average bill value for targeted promotions.</p></article>
+          <article class="card"><h3>Store comparison</h3><p>Measure regional sales, branch profitability, and stock turnover to improve location-based planning.</p></article>
+          <article class="card"><h3>Promotion analysis</h3><p>Study which campaigns increased transaction volume and whether discounts improved total profit or only revenue.</p></article>
+          <article class="card"><h3>Inventory monitoring</h3><p>Track slow-moving and fast-moving items to maintain stock balance and reduce overstock or stockout issues.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="plan">
+      <div class="wide">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Implementation guide</p>
+            <h2>Suggested development phases</h2>
+          </div>
+          <p>This structure is suitable for a college submission because it clearly connects theory, schema design, ETL flow, and BI outcomes.</p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item"><strong>Phase 1 — Requirement study:</strong> Identify business questions such as total sales by region, best-selling products, customer segments, and campaign effectiveness.</div>
+          <div class="timeline-item"><strong>Phase 2 — Source analysis:</strong> Define source files or tables for products, customers, stores, promotions, and transactions.</div>
+          <div class="timeline-item"><strong>Phase 3 — Warehouse design:</strong> Build a star schema and define fact and dimension attributes with primary and foreign keys.</div>
+          <div class="timeline-item"><strong>Phase 4 — ETL workflow:</strong> Extract raw retail data, clean and standardize it, compute derived metrics, and load final tables.</div>
+          <div class="timeline-item"><strong>Phase 5 — Reporting:</strong> Create charts, KPI cards, and summary reports for faculty demonstration and viva explanation.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wide footer-box">
+      <div>
+        <strong>Project title:</strong> Retail Business Intelligence System using Data Warehousing Techniques<br>
+        <strong>Domain:</strong> Data Warehouse and Business Intelligence
+      </div>
+      <div>
+        Prepared as a static project showcase page suitable for GitHub hosting, viva presentation, and college mini-project submission.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const btn = document.querySelector('[data-theme-toggle]');
+      let mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', mode);
+      const paint = () => {
+        btn.setAttribute('aria-label', 'Switch to ' + (mode === 'dark' ? 'light' : 'dark') + ' mode');
+        btn.innerHTML = mode === 'dark'
+          ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+          : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3A7 7 0 0 0 21 12.79z"/></svg>';
+      };
+      paint();
+      btn.addEventListener('click', function(){ mode = mode === 'dark' ? 'light' : 'dark'; root.setAttribute('data-theme', mode); paint(); });
+    })();
+  </script>
+</body>
+</html>
